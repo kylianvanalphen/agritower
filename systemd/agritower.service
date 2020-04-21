@@ -1,0 +1,14 @@
+[Unit]
+Description=AgriTower software
+Wants=network-online.target
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/python2 /home/pi/agritower/program.py
+StandardOutput=console
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
