@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 import glob
 import RPi.GPIO as GPIO
-from lib.database import Database
+from lib import Database
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
