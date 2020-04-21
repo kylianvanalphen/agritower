@@ -15,7 +15,7 @@ GPIO.setup(23, GPIO.OUT)
 
 # Create instances of components
 database = Database("provil-ict.be", "gip_agritower", "agritower", "gip_2019_agritower")
-moisture_sensor = MoistureSensor()
+moisture_sensor = MoistureSensor(0)
 temperature_sensor = TemperatureSensor()
 
 os.system('modprobe w1-gpio')
