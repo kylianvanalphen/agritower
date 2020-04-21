@@ -16,8 +16,12 @@ temperature_sensor = TemperatureSensor()
 def main():
     count = 0
 
+    print "Program has started"
+
     while True:
         count += 1
+
+        print "Loop %i" % count
 
         # Loop every second -> 10 = 10 seconds
         if count == 10:
@@ -36,7 +40,6 @@ def main():
         # Control LED1
         led1 = database.selectOutput("LED1")
         GPIO.output(23, int(led1[2]))
-        print "Set %s to %i" % (led1[1], led1[2])
         
         time.sleep(1)
 
