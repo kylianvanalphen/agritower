@@ -31,6 +31,10 @@ def main():
         # Control LED1
         led1 = database.selectOutput("LED1")
         GPIO.output(23, int(led1[2]))
+
+        # Control LED2
+        # led2 = database.selectOutput("LED2")
+        # GPIO.output(24, int(led2[2]))
         
         time.sleep(1)
 
