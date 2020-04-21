@@ -29,3 +29,21 @@ class Database:
     def selectOutput(self, name):
         self.cursor.execute("SELECT * FROM outputs WHERE name = %s", (name,))
         return self.cursor.fetchone()
+
+    def moveMoistureArchive(self):
+        try:
+            self.cursor.execute("INSERT INTO archiveMoistureSensor SELECT id, datum, waarde FROM moistureSensor WHERE datum <= DATE_SUB(SYSDATE(), INTERVAL 2 DAY)")
+            self.cursor.execute("DELETE FROM moistureSensor WHERE datum <= DATE_SUB(SYSDATE(), INTERVAL 2 DAY)")
+            self.db.commit()
+        except:
+            print "Error while moving moisture sensor records to archive"
+            self.db.rollback()
+
+    def moveTemperatureArchive(self):
+        try:
+            self.cursor.execute("INSERT INTO archiveTemperatureSensor SELECT id, datum, waarde FROM temperatureSensor WHERE datum <= DATE_SUB(SYSDATE(), INTERVAL 2 DAY)")
+            self.cursor.execute("DELETE FROM temperatureSensor WHERE datum <= DATE_SUB(SYSDATE(), INTERVAL 2 DAY)")
+            self.db.commit()
+        except:
+            print "Error while moving temperature sensor records to archive"
+            self.db.rollback()

@@ -22,11 +22,16 @@ def main():
         count += 1
 
         # Loop every second -> 10 = 10 seconds
-        if count == 10:
-            count = 0
+        if count % 10 == 0:
             print "Getting sensor data"
             database.insertMoisture(moisture_sensor.getMoisture())
             database.insertTemperature(temperature_sensor.getTemperature())
+
+        # Move to archive every hour
+        if count == 3600:
+            count = 0
+            database.moveMoistureArchive()
+            database.moveTemperatureArchive()
 
         # Control LED1
         led1 = database.selectOutput("LED1")
