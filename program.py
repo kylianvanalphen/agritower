@@ -21,21 +21,12 @@ def main():
     while True:
         count += 1
 
-        print "Loop %i" % count
-
         # Loop every second -> 10 = 10 seconds
         if count == 10:
             count = 0
+            print "Getting sensor data"
             database.insertMoisture(moisture_sensor.getMoisture())
             database.insertTemperature(temperature_sensor.getTemperature())
-
-        # if 0 <= m and m < 300:
-        #     result = 'Dry'
-        # elif 300 <= m and m < 600:
-        #     result = 'Moist'
-        # else:
-        #     result = 'Wet'
-        # print('Moisture value: {0}, {1}'.format(m, result))
 
         # Control LED1
         led1 = database.selectOutput("LED1")
