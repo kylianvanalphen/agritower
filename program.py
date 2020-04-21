@@ -2,21 +2,21 @@
 import math
 import sys
 import time
-from grove.adc import ADC
-from datetime import datetime
+# from grove.adc import ADC
+# from datetime import datetime
 import os
 import glob
 import RPi.GPIO as GPIO
-from lib import Database
+from lib import Database, MoistureSensor, TemperatureSensor
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(23, GPIO.OUT)
 
-# db = MySQLdb.connect("provil-ict.be","gip_agritower","agritower","gip_2019_agritower")
-# curs=db.cursor()
-
+# Create instances of components
 database = Database("provil-ict.be", "gip_agritower", "agritower", "gip_2019_agritower")
+moisture_sensor = MoistureSensor()
+temperature_sensor = TemperatureSensor()
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -26,23 +26,23 @@ device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
 
-class GroveMoistureSensor:
-    def __init__(self, channel):
-        self.channel = channel
-        self.adc = ADC()
+# class GroveMoistureSensor:
+#     def __init__(self, channel):
+#         self.channel = channel
+#         self.adc = ADC()
 
-    @property
-    def moisture(self):
-        '''
-        Get the moisture strength value/voltage
+#     @property
+#     def moisture(self):
+#         '''
+#         Get the moisture strength value/voltage
 
-        Returns:
-            (int): voltage, in mV
-        '''
-        value = self.adc.read_voltage(self.channel)
-        return value
+#         Returns:
+#             (int): voltage, in mV
+#         '''
+#         value = self.adc.read_voltage(self.channel)
+#         return value
 
-Grove = GroveMoistureSensor
+# Grove = GroveMoistureSensor
 
 
 
@@ -66,32 +66,20 @@ def read_temp():
     
 
 def main():
-    from grove.helper import SlotHelper
-    sh = SlotHelper(SlotHelper.ADC)
-    pin = 0
+    # from grove.helper import SlotHelper
+    # sh = SlotHelper(SlotHelper.ADC)
+    # pin = 0
 
-    sensor = GroveMoistureSensor(pin)
+    # sensor = GroveMoistureSensor(pin)
 
     print('Detecting moisture...')
     while True:
-        m = sensor.moisture
+        # m = sensor.moisture
 
-        database.insertMoisture(m)
-        database.insertTemperature(read_temp())
-
-        # current_dt = datetime.now()
-
-        # try:
-            # print "temp is"
-            # print read_temp()
-            # curs.execute("INSERT INTO moistureSensor (datum, waarde)  VALUES (%s,%s)", (current_dt.strftime("%Y/%m/%d %H:%M:%S"), str(m)))
-            # curs.execute("INSERT INTO temperatureSensor (datum, waarde)  VALUES (%s,%s)", (current_dt.strftime("%Y/%m/%d %H:%M:%S"), str(read_temp())))
-            # db.commit()
-            # database.insertMoisture(waarde)
-            # print "data commited"
-        # except:
-            # print "error"
-            # db.rollback()
+        # database.insertMoisture(m)
+        # database.insertTemperature(read_temp())
+        database.insertMoisture(moisture_sensor.getMoisture())
+        database.insertTemperature(temperature_sensor.getTemperature())
 
         # if 0 <= m and m < 300:
         #     result = 'Dry'
@@ -103,11 +91,11 @@ def main():
         
         # database.selectOutput("POMP")
 
-        led1 = database.selectOutput("LED1")
-        print "status of led 1 is " + str(led1[2])
+        # led1 = database.selectOutput("LED1")
+        # print "status of led 1 is " + str(led1[2])
 
-        led2 = database.selectOutput("LED2")
-        print "status of led 2 is " + str(led1[2])
+        # led2 = database.selectOutput("LED2")
+        # print "status of led 2 is " + str(led1[2])
 
         # curs.execute("SELECT * FROM outputs ")
         # result_set = curs.fetchall()
