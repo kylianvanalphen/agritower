@@ -18,6 +18,10 @@ def main():
 
     print "Program has started"
 
+    database.moveMoistureArchive()
+    database.moveTemperatureArchive()
+    print "Moved data to archive"
+
     while True:
         count += 1
 
@@ -32,6 +36,7 @@ def main():
             count = 0
             database.moveMoistureArchive()
             database.moveTemperatureArchive()
+            print "Moved data to archive"
 
         # Control LED1
         led1 = database.selectOutput("LED1")
