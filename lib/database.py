@@ -27,5 +27,5 @@ class Database:
             self.db.rollback()
 
     def selectOutput(self, name):
-        curs.execute("SELECT * FROM outputs WHERE name = %s" % name)
-        result_set = curs.fetchone()
+        self.cursor.execute("SELECT * FROM outputs WHERE name = %s" % name)
+        return curs.fetchone()
