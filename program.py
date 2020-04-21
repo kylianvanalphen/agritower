@@ -104,7 +104,10 @@ def main():
         # database.selectOutput("POMP")
 
         led1 = database.selectOutput("LED1")
-        print "status of led 1 is " + led1[2]
+        print "status of led 1 is " + str(led1[2])
+
+        led2 = database.selectOutput("LED2")
+        print "status of led 2 is " + str(led1[2])
 
         # curs.execute("SELECT * FROM outputs ")
         # result_set = curs.fetchall()
