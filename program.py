@@ -21,7 +21,7 @@ def main():
     database.moveMoistureArchive()
     database.moveTemperatureArchive()
     print "Moved data to archive"
-
+    previous_status_led = False
     while True:
         count += 1
 
@@ -41,6 +41,9 @@ def main():
         # Control LED1
         led1 = database.selectOutput("LED1")
         GPIO.output(23, int(led1[2]))
+        if previous_status_led != bool(int(led1[2])):
+            previous_status_led = bool(int(led1[2]))
+            database.insertStatus(previous_status_led, "LED1")
 
         # Control LED2
         # led2 = database.selectOutput("LED2")
