@@ -26,11 +26,11 @@ def main():
     database.moveTemperatureArchive()
     print "Moved data to archive"
 
-    previous_status_led1 = False
-    previous_status_led2 = False
-    previous_status_led3 = False
-    previous_status_led4 = False
-    previous_status_pomp = False
+    previous_status_led1 = 0
+    previous_status_led2 = 0
+    previous_status_led3 = 0
+    previous_status_led4 = 0
+    previous_status_pomp = 0
 
     while True:
         count += 1
@@ -50,48 +50,49 @@ def main():
 
         # Control LED1 (dark red)
         led1 = database.selectOutput("LED1")
-        if (int(led1[2]) == 1):
-            GPIO.output(24, 0)
-        else:
+        if (int(led1[2]) == 0):
             GPIO.output(24, 1)
+        else:
+            GPIO.output(24, 0)
         # GPIO.output(24, int(led1[2]))
-        if previous_status_led1 != bool(int(led1[2])):
-            previous_status_led1 = bool(int(led1[2]))
+        if previous_status_led1 != int(led1[2]):
+            previous_status_led1 = int(led1[2])
             database.insertStatus(previous_status_led1, "LED1")
 
         # Control LED2 (red)
         led2 = database.selectOutput("LED2")
-        if (int(led2[2]) == 1):
-            GPIO.output(27, 0)
-        else:
+        if (int(led2[2]) == 0):
             GPIO.output(27, 1)
+        else:
+            GPIO.output(27, 0)
         # GPIO.output(27, int(led2[2]))
-        if previous_status_led2 != bool(int(led2[2])):
-            previous_status_led2 = bool(int(led2[2]))
+        if previous_status_led2 != int(led2[2]):
+            previous_status_led2 = int(led2[2])
             database.insertStatus(previous_status_led2, "LED2")
         
         # Control LED3 (blue)
         led3 = database.selectOutput("LED3")
-        if (int(led3[2]) == 1):
-            GPIO.output(22, 0)
-        else:
+        if (int(led3[2]) == 0):
             GPIO.output(22, 1)
+        else:
+            GPIO.output(22, 0)
         # GPIO.output(22, int(led3[2]))
-        if previous_status_led3 != bool(int(led3[2])):
-            previous_status_led3 = bool(int(led3[2]))
+        if previous_status_led3 != int(led3[2]):
+            previous_status_led3 = int(led3[2])
             database.insertStatus(previous_status_led3, "LED3")
+            
         # Control LED4 (white)
         led4 = database.selectOutput("LED4")
         GPIO.output(17, int(led4[2]))
-        if previous_status_led4 != bool(int(led4[2])):
-            previous_status_led4 = bool(int(led4[2]))
+        if previous_status_led4 != int(led4[2]):
+            previous_status_led4 = int(led4[2])
             database.insertStatus(previous_status_led4, "LED4")
 
         # Control POMP
         pomp = database.selectOutput("POMP")
         GPIO.output(23, int(pomp[2]))
-        if previous_status_pomp != bool(int(pomp[2])):
-            previous_status_pomp = bool(int(pomp[2]))
+        if previous_status_pomp != int(pomp[2]):
+            previous_status_pomp = int(pomp[2])
             database.insertStatus(previous_status_pomp, "POMP")
 
         time.sleep(1)
