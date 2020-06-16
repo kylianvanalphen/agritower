@@ -49,7 +49,7 @@ class Database:
             self.db.rollback()
 
     def insertStatus(self, value, name): 
-         current_dt = datetime.now()
+        current_dt = datetime.now()
 
         try:
             self.cursor.execute("INSERT INTO archiveOutputStatus (datum, waarde, output) VALUES (%s,%s, %s)", (current_dt.strftime("%Y/%m/%d %H:%M:%S"), str(value), str(name)))
